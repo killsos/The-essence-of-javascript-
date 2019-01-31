@@ -731,13 +731,185 @@
 			
 			这样一来 在初始构造该对象时候
 			
-				
-		
+			规则1  保证在读取时被首先访问到
 			
-			
-			
-			
+			规则2  如果对象中没有指定属性  则尝试遍历对象的整个原型链  直到原型为空null或找到该属性
 			
 			
 	
 ![Prototype](./images/prototype-based.png "Prototype")
+
+
+- 构造过程
+
+		
+		函数只有需要引用到原型时 才具有构造器的特性
+		
+		函数原型 总是  一个标准的 系统内置的 Object()构造器实例
+		
+		该实例创建后constructor属性总线被赋值为函数
+		
+		对象实例 本质
+		
+			是 一个指向原型的 并持有一个属性列表的结构
+			
+		
+		
+		Object.prototype.__proto__ // null
+		
+		Object.getPrototypeOf(Object.prototype)  // null
+		
+		
+		
+	
+- 函数具有特殊成员
+
+		
+		call
+		
+		apply
+		
+		bing
+		
+		arguments   // 实参对象  伪数组
+		
+		length   // 函数形参的个数
+		
+		prototype  // 对象
+		
+
+- 原型链
+
+		 
+		一个实例至少应该拥有指向原型的proto属性 这是javascript中对象系统的基础
+		
+		不过这个proto属性是不可见的 称之为 内部原型链
+		
+		和 构造器的 prototype 所组成的 构造器原型链 这就是通常说 原型链
+		
+		内部原型链是Javascript的原型机制所需要的
+		
+		通过constructor 与 prototype 所维护的构造器原型链 则是用户代码要回溯时才需要的
+		
+		
+		function a() {  }
+		
+		function b() {  }
+		
+		b.prototype = new a();
+		
+		// b.prototype.constructor = b;
+		
+		let c = new b();
+		
+		console.log( c instanceof b)  // true
+		
+		console.log( c instanceof a)  // true
+		
+		console.log( c.constructor)  // a
+		
+		console.log( c.constructor.prototype) // {constructor:b}
+		
+		
+		
+		SpiderMonkey 提供了一个默认 在任何创建对象上添加一个 名为 __proto__ 的属性
+		
+		该属性 总是 指向 构造器所用的原型
+		
+		
+		 __proto__ 变相 公开了 内部原型链上 对象.proto 成员
+		 
+		 
+		
+	
+	
+- 构造对象五种方法
+
+		
+		
+		1. 使用构造器创建对象实例
+		
+			function Animal() {
+			
+				this....
+			
+			}
+		
+		
+		2. 构造器中直接返回对象实例
+		
+			funcction Animal() {
+				
+				var data = this;
+				
+				return {
+				
+				
+				}
+			
+			}
+		
+		3. 修改原型
+		
+			prototype.propertyname 
+			
+			
+		4. 重新原型
+		
+			prototype = {
+				
+				propertyname1:
+			
+			}
+		
+		
+		5. 继承原型
+		
+			prototype = new ParentClass();
+			
+		
+		
+	
+	
+- javascript对象
+
+			
+		typeof
+		
+			值类型
+			
+				undefined
+				
+				number
+				
+				boolean
+				
+				string
+				
+			引用类型
+			
+				object
+				
+				function
+				
+			
+	
+- 属性状态维护
+
+		
+		preventExtension       不能添加新属性
+		
+		seal                   不能 添加新属性  删除既有属性
+		
+		freeze                 不能 添加新属性  删除既有属性  属性只读
+		
+		
+		keys()                 取对象自有的 可见的  属性名数组
+		
+		getOwnPropertyNames()  取对象自有的属性名数组
+		
+		   
+		
+		
+		
+	
